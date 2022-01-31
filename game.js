@@ -1,48 +1,76 @@
 let wins = 0;
 let losses = 0;
-
-while ((wins <5) && (losses<5)){
-    computerPlay();
+var choose = '';
+const container = document.querySelector(".container");
+if ((wins <5) && (losses<5)){
+    const option = document.querySelectorAll("button");
+    option.forEach(option =>{
+        option.addEventListener('click', (e) =>{
+            choose = e.target.className;
+            container.replaceChildren();
+            let yourChoice = document.createElement('div');
+            yourChoice.classList.add("yourChoice");
+            yourChoice.textContent = `You have chosen ${choose}`;
+            container.appendChild(yourChoice);
+            playRound(choose, computerPlay());
+            
+        })
+    })
     function computerPlay(){
         let selection = Math.floor(Math.random()*3);
+        let computerContent = document.createElement('div');
+        computerContent.classList.add("computerContent");
         if (selection == 0){
             object = "rock";
+            computerContent.textContent = `Computer has chosen ${object}`;
             }
         else if(selection == 1){
             object="paper";
+            computerContent.textContent = `Computer has chosen ${object}`;
             }
         else {
             object="scissors";
-        } 
+            computerContent.textContent = `Computer has chosen ${object}`;
+        }
+        container.appendChild(computerContent); 
         return object;     
     }
-    let choose = prompt("Choose Rock, Paper, or Scissors");
-    choose = choose.toLowerCase();
-    console.log(`The object the computer has selected is ${object}`);
-    playRound(choose, object);
     function playRound(playerSelection, computerSelection){
-        console.log(`You have chosen ${choose}`);
+        let yourSelection = document.createElement('div');
+        yourSelection.classList.add("yourSelection");
         if (choose == computerSelection){
-            console.log("It's a tie");
+            yourSelection.textContent = "It's a tie";
+            
+            //content.textContent = "It's a tie";
         }else if ((choose == "rock") && (computerSelection == "scissors")){
-            console.log("You win this round");
+            //console.log("You win this round");
+            yourSelection.textContent = "You win this round";
             wins++
         }else if ((choose == "scissors") && (computerSelection == "paper")){
-            console.log("You win this round");
+            //console.log("You win this round");
+            yourSelection.textContent = "You win this round";
             wins++
         }else if ((choose == "paper") && (computerSelection == "rock")){
-            console.log("You win this round");
+            //console.log("You win this round");
+            yourSelection.textContent = "You win this round";
             wins++
         }else{
-            console.log("You lost this round")
-            losses ++
+            //console.log("You lost this round")
+            yourSelection.textContent = "You lost this round";
+            losses++
         }
-    console.log(`Wins: ${wins}, Losses: ${losses}`);
+        container.appendChild(yourSelection);
+        let winsLosses = document.createElement('div');
+        winsLosses.classList.add("winsLosses");
+        winsLosses.textContent =`Wins: ${wins}, Losses: ${losses}`
+        if (wins == 5){
+            winsLosses.textContent = "You won the game !!!"; 
+        }else if (losses == 5){
+            winsLosses.textContent = "The computer won the game!!!";
+        } 
+        container.appendChild(winsLosses);
          
     }
-    if (wins == 5){
-        console.log("You won the game !!!");
-    }else if (losses == 5){
-        console.log("The computer wins !!!");
-    } 
+    
+    
 }
